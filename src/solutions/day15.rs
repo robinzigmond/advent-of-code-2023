@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::prelude::*;
-use std::collections::HashMap;
 
 fn read_file() -> Vec<String> {
   let mut file = File::open("./input/input15.txt").unwrap();
@@ -92,7 +91,7 @@ impl Boxes {
           .content[box_index]
           .iter()
           .enumerate()
-          .find(|(index, lens)| lens.label == label);
+          .find(|(_, lens)| lens.label == label);
 
         if let Some((index, _)) = existing_lens {
           self.content[box_index].remove(index);
@@ -105,7 +104,7 @@ impl Boxes {
           .content[box_index]
           .iter()
           .enumerate()
-          .find(|(index, lens)| lens.label == label);
+          .find(|(_, lens)| lens.label == label);
 
         let new_lens = Lens { label, focal_length };
 
@@ -144,6 +143,6 @@ fn solve_part_2(instructions: Vec<String>) -> usize {
 }
 
 pub fn part_2() -> usize {
-  let mut instructions = read_file();
+  let instructions = read_file();
   solve_part_2(instructions)
 }
