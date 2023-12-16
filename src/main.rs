@@ -1,8 +1,13 @@
 mod solutions;
 
 use crate::solutions::*;
+use std::thread;
 
-fn main() {
+// need a larger stack for day 16 puzzle using recursive approach!
+// Found how to do it from https://www.reddit.com/r/rust/comments/872fc4/how_to_increase_the_stack_size/
+const STACK_SIZE: usize = 4 * 1024 * 1024;
+
+fn run() {
   println!("The answer to day 1, part 1 is {}", day1::part_1());
   println!("The answer to day 1, part 2 is {}", day1::part_2());
   println!("The answer to day 2, part 1 is {}", day2::part_1());
@@ -34,4 +39,17 @@ fn main() {
   println!("The answer to day 14, part 2 is {}", day14::part_2());
   println!("The answer to day 15, part 1 is {}", day15::part_1());
   println!("The answer to day 15, part 2 is {}", day15::part_2());
+  println!("The answer to day 16, part 1 is {}", day16::part_1());
+  println!("The answer to day 16, part 2 is {}", day16::part_2());
+}
+
+fn main() {
+  // Spawn thread with explicit stack size
+  let child = thread::Builder::new()
+      .stack_size(STACK_SIZE)
+      .spawn(run)
+      .unwrap();
+
+  // Wait for thread to join
+  child.join().unwrap();
 }
